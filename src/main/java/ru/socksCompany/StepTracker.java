@@ -1,17 +1,18 @@
 package ru.socksCompany;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class StepTracker {
     //Логика сохранения шагов, ввода данных, изменения ежедневной нормы и вывода статистики.
     private int stepsGoal; // объявление переменной цели шагов
-    private final MounthData[] monthToData; // объявление массива месяцев
+    private final MonthData[] monthToData; // объявление массива месяцев
 
     public StepTracker() { // конструктор
         stepsGoal = 10000; // присваиваю значение 10000 по умолчанию
-        monthToData = new MounthData[12]; //создаю массив на 12 элементов
+        monthToData = new MonthData[12]; //создаю массив на 12 элементов
         for (int i = 0; i < monthToData.length; i++) { //заполняю массив объектами
-            monthToData[i] = new MounthData();
+            monthToData[i] = new MonthData();
         }
     }
 
@@ -48,8 +49,6 @@ public class StepTracker {
         //сохраняем данные:
         monthToData[mounth-1].setAmountSteps(day, amountSteps);
 
-        // Закрываем Scanner
-        scanner.close();
     }
 
 
@@ -59,19 +58,16 @@ public class StepTracker {
         //сканер для ввода инфо:
         Scanner scanner = new Scanner(System.in);
 
-        //просим ввести кол-во шагов: (надо подумать потом как отрефакторить повторяющийся метод)
+        //просим ввести кол-во шагов: (надо подумать потом как отрефакторить повторяющиеся методы)
         System.out.println("Введите кол-во шагов для цели (по умолчанию 10000): ");
         int changeStepsGoal = scanner.nextInt();
         if (changeStepsGoal==10000) {
             System.out.println("Такое значение уже указано по умолчанию! Введите другое значение.");
             return;
         }
-        // Закрываем Scanner
-        scanner.close();
-        //сохраняем значение:
-        stepsGoal = changeStepsGoal
 
-
+        //сохраняем данные:
+        stepsGoal = changeStepsGoal;
     }
 
     //Выводим статистику шагов за определенный месяц ( запросить номер месяца, вывести):
@@ -82,20 +78,18 @@ public class StepTracker {
 
         //просим ввести месяц:
         System.out.println("Введите месяц: ");
-        int mounth = scanner.nextInt();
+        int month = scanner.nextInt();
 
-        System.out.println("Список шагов по дням: " + monthToData[mounth-1].p
-        System.out.println("Общее количество шагов за месяц: " + monthToData[mounth-1].getSumSteps());
-        System.out.println("Максимальное количество шагов за день: " + monthToData[mounth-1].getMaxSteps());
-        System.out.println("Среднее количество шагов: " + monthToData[mounth-1].g
-                "Пройденную дистанцию (км)\n" +
-                "\n" +
-                "Сожжённые килокалории\n" +
-                "\n" +
-                "Лучшую серию дней, когда шагов было не меньше цели.");
+
+        //выводим инфо по статистике
+        System.out.println("Список шагов по дням: " + Arrays.toString(monthToData[month-1].getStepsByDay()));
+        System.out.println("Общее количество шагов за месяц: " + monthToData[month-1].getSumSteps());
+        System.out.println("Максимальное количество шагов за день: " + monthToData[month-1].getMaxSteps());
+        System.out.println("Среднее количество шагов: " + monthToData[month-1].getAvgSteps());
+        System.out.println("Пройденная дистанция (км): " + monthToData[month-1].getDistance());
+        System.out.println("Сожжённые килокалории: " + monthToData[month-1].getLostCcal());
+        System.out.println("Лучшая серия дней, когда шагов было не меньше цели: " + monthToData[month-1].getBestDaysGoal(stepsGoal));
     }
 
-    //Пройденную дистанцию (км)
 
-    //Сожжённые килокалории
 }

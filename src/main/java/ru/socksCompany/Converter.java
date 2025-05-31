@@ -8,7 +8,19 @@ public class Converter {
     private static final int ONESTEPCAL = 50 ;
     private static final int CCAL = 1000;
 
-    public static int convertToKM() {
+
+    //возвращаем перевод шагов в КМ:
+    public double convertToKM() {
+        double dayToKM = ONESTEPMETR / 1000;
+        return dayToKM;
 
     }
+
+    //возвращаем перевод шагов в ккал:
+    public double convertToCcal() {
+        double dayToCcal = (double) ONESTEPCAL / CCAL;
+        return dayToCcal;
+
+    }
+
 }
